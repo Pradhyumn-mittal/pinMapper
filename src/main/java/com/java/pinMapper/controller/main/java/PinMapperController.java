@@ -21,12 +21,20 @@ public class PinMapperController {
 
   @Autowired
   private PinMapperService pinMapperService;
-  @ApiOperation(value = "Get.route",notes = "input Pincode")
-  @GetMapping(path = ApiPath.ROUTE)
-  public ResponseEntity<RouteResponse> findRoute(
+  @ApiOperation(value = "Get.route",notes = "input Integer Pincode")
+  @GetMapping(path = ApiPath.ROUTE+ApiPath.PINCODE)
+  public ResponseEntity<RouteResponse> findRouteFromPincode(
       @RequestParam Integer origin,
       @RequestParam Integer destination
   ) {
-    return new ResponseEntity<>(pinMapperService.findRoute(origin,destination), HttpStatus.OK);
+    return new ResponseEntity<>(pinMapperService.findRouteByPincode(origin,destination), HttpStatus.OK);
+  }
+  @ApiOperation(value = "Get.route",notes = "input String Address")
+  @GetMapping(path = ApiPath.ROUTE+ApiPath.ADDRESS)
+  public ResponseEntity<RouteResponse> findRouteFromAddress(
+      @RequestParam String origin,
+      @RequestParam String destination
+  ) {
+    return new ResponseEntity<>(pinMapperService.findRouteByAddress(origin,destination), HttpStatus.OK);
   }
 }

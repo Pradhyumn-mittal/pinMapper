@@ -14,7 +14,7 @@
 	<name>pinMapper</name>
 	<description>pinMapper: Distance and Duration Calculator</description>
 	<properties>
-		<java.version>11</java.version>
+		<java.version>17</java.version>
 		<swagger.version>2.9.2</swagger.version>
 		<mockito-core.version>3.0.0</mockito-core.version>
 		<powermock.version>1.7.0</powermock.version>
@@ -23,6 +23,7 @@
 		<spring-test.version>5.1.6.RELEASE</spring-test.version>
 		<powermock.version>2.0.2</powermock.version>
 		<spring.kafka.version>2.2.1.RELEASE</spring.kafka.version>
+		<redis.clients.jedis.version>3.3.0</redis.clients.jedis.version>
 		<spring.data.redis.version>2.3.3.RELEASE</spring.data.redis.version>
 	</properties>
 	<dependencies>
@@ -67,9 +68,8 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework.kafka</groupId>
-			<artifactId>spring-kafka</artifactId>
-			<version>${spring.kafka.version}</version>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -99,6 +99,11 @@
 			<artifactId>junit</artifactId>
 			<version>${junit.version}</version>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>redis.clients</groupId>
+			<artifactId>jedis</artifactId>
+			<version>${redis.clients.jedis.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>

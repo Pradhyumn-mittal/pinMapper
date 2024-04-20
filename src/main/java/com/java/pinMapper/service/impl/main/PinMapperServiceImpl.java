@@ -7,8 +7,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class PinMapperServiceImpl implements PinMapperService {
 
+
   @Override
-  public RouteResponse findRoute(Integer origin, Integer destination) {
+  public RouteResponse findRouteByPincode(Integer origin, Integer destination) {
+return null;
+  }
+
+  @Override
+  public RouteResponse findRouteByAddress(String origin, String destination) {
     return null;
   }
 }
