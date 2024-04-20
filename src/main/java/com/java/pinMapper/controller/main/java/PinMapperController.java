@@ -2,6 +2,7 @@ package com.java.pinMapper.controller.main.java;
 
 import com.java.pinMapper.entity.constant.ApiPath;
 
+import com.java.pinMapper.entity.pojo.RouteResponse;
 import com.java.pinMapper.service.api.PinMapperService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,9 +24,9 @@ public class PinMapperController {
   @ApiOperation(value = "Get.route",notes = "input Pincode")
   @GetMapping(path = ApiPath.ROUTE)
   public ResponseEntity<RouteResponse> findRoute(
-      @RequestParam Integer orign,
+      @RequestParam Integer origin,
       @RequestParam Integer destination
   ) {
-    return new ResponseEntity<>(pinMapperService.findRoute(orign,destination), HttpStatus.OK);
+    return new ResponseEntity<>(pinMapperService.findRoute(origin,destination), HttpStatus.OK);
   }
 }

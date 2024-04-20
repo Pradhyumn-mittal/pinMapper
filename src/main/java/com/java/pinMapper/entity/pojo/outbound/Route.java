@@ -18,5 +18,4 @@ public class Route {
   private String summary;
   private List<String> warnings;
   private List<Integer> waypointOrder;
-
 }
