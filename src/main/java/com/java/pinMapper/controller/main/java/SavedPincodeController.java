@@ -21,19 +21,19 @@ public class SavedPincodeController {
     @Autowired
     private PinMapperService pinMapperService;
 //    @ApiOperation(value = "Post.pincodes",notes = "Save Pincode")
-    @PostMapping()
-    public ResponseEntity<RouteResponse> findRouteFromPincode(
-        @RequestParam Integer origin,
-        @RequestParam Integer destination
-    ) {
-      return new ResponseEntity<>(pinMapperService.findRouteByPincode(origin,destination), HttpStatus.OK);
-    }
-//    @ApiOperation(value = "Get.route",notes = "input String Address")
-    @GetMapping(path = ApiPath.ROUTE+ApiPath.ADDRESS)
-    public ResponseEntity<RouteResponse> findRouteFromAddress(
-        @RequestParam String origin,
-        @RequestParam String destination
-    ) {
-      return new ResponseEntity<>(pinMapperService.findRouteByAddress(origin,destination), HttpStatus.OK);
-    }
+//    @PostMapping()
+//    public ResponseEntity<RouteResponse> findRouteFromPincode(
+//        @RequestParam Integer origin,
+//        @RequestParam Integer destination
+//    ) {
+//      return new ResponseEntity<>(pinMapperService.findRouteByPincode(origin,destination), HttpStatus.OK);
+//    }
+////    @ApiOperation(value = "Get.route",notes = "input String Address")
+//    @GetMapping(path = ApiPath.ROUTE+ApiPath.ADDRESS)
+//    public ResponseEntity<RouteResponse> findRouteFromAddress(
+//        @RequestParam String origin,
+//        @RequestParam String destination
+//    ) {
+//      return new ResponseEntity<>(pinMapperService.findRouteByAddress(origin,destination), HttpStatus.OK);
+//    }
   }

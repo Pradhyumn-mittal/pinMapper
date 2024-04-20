@@ -14,6 +14,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 @Configuration
 @ComponentScan(basePackages = "com.java.pinMapper.repository.main.java")
 @ComponentScan(basePackages = "com.java.pinMapper.service")
+@ComponentScan(basePackages = "com.java.pinMapper.outbound")
 @EnableMongoRepositories(value = "com.java.pinMapper.repository.main.java")
 public class MongoConfiguration {
   private MongoProperties mongoProperties;

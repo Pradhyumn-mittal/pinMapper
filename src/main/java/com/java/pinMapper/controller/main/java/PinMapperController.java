@@ -2,8 +2,10 @@ package com.java.pinMapper.controller.main.java;
 
 import com.java.pinMapper.entity.constant.ApiPath;
 
+import com.java.pinMapper.entity.dao.RouteInfo;
 import com.java.pinMapper.entity.pojo.RouteResponse;
 import com.java.pinMapper.service.api.PinMapperService;
+import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,15 +25,15 @@ public class PinMapperController {
   private PinMapperService pinMapperService;
 //  @ApiOperation(value = "Get.route",notes = "input Integer Pincode")
   @GetMapping(path = ApiPath.ROUTE+ApiPath.PINCODE)
-  public ResponseEntity<RouteResponse> findRouteFromPincode(
+  public ResponseEntity<RouteInfo> findRouteFromPincode(
       @RequestParam Integer origin,
       @RequestParam Integer destination
-  ) {
+  ) throws IOException {
     return new ResponseEntity<>(pinMapperService.findRouteByPincode(origin,destination), HttpStatus.OK);
   }
 //  @ApiOperation(value = "Get.route",notes = "input String Address")
   @GetMapping(path = ApiPath.ROUTE+ApiPath.ADDRESS)
-  public ResponseEntity<RouteResponse> findRouteFromAddress(
+  public ResponseEntity<RouteInfo> findRouteFromAddress(
       @RequestParam String origin,
       @RequestParam String destination
   ) {

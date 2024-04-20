@@ -7,6 +7,7 @@ import com.java.pinMapper.outbound.api.GoogleMapsOutboundService;
 import com.java.pinMapper.repository.main.java.RouteInfoRepository;
 import com.java.pinMapper.service.api.CacheService;
 import com.java.pinMapper.service.api.PinMapperService;
+import java.io.IOException;
 import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,14 +26,13 @@ public class PinMapperServiceImpl implements PinMapperService {
   private GoogleMapsOutboundService googleMapsOutboundService;
 
   @Override
-  public RouteResponse findRouteByPincode(Integer origin, Integer destination) {
+  public RouteInfo findRouteByPincode(Integer origin, Integer destination) throws IOException {
     LOGGER.info("findRouteByPincode origin:{},destination:{}",origin,destination);
     String cacheKey= CacheKey.ROUTE_INFO+origin.toString()+"-"+destination.toString();
 
-    RouteResponse routeInfo= cacheService.findCacheByKey(cacheKey,RouteResponse.class);
+    RouteInfo routeInfo= cacheService.findCacheByKey(cacheKey,RouteInfo.class);
     if(Objects.isNull(routeInfo))
-    {
-     routeInfo=googleMapsOutboundService.findRouteInfo(String.valueOf(origin),String.valueOf(destination));
+    {routeInfo=googleMapsOutboundService.findRouteInfo(String.valueOf(origin),String.valueOf(destination));
      cacheService.createCache(cacheKey,routeInfo,3600);
      //TODO: replace expiry seconds from application.properties
     }
@@ -40,7 +40,7 @@ public class PinMapperServiceImpl implements PinMapperService {
   }
 
   @Override
-  public RouteResponse findRouteByAddress(String origin, String destination) {
+  public RouteInfo findRouteByAddress(String origin, String destination) {
     return null;
   }
 }
