@@ -12,10 +12,9 @@ import org.springframework.data.mongodb.core.convert.MongoConverter;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 @Configuration
-@ComponentScan(basePackages = "com.java.pinMapper.repository")
+@ComponentScan(basePackages = "com.java.pinMapper.repository.main.java")
 @ComponentScan(basePackages = "com.java.pinMapper.service")
-@EnableMongoRepositories(value = "com.java.pinMapper.repository")
-@EnableMongoAuditing(auditorAwareRef = "stringAuditorAware")
+@EnableMongoRepositories(value = "com.java.pinMapper.repository.main.java")
 public class MongoConfiguration {
   private MongoProperties mongoProperties;
   @Autowired

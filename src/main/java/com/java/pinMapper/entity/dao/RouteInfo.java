@@ -19,9 +19,9 @@ import org.springframework.data.mongodb.core.mapping.Field;
 public class RouteInfo extends BaseMongo {
 
   @Field(value = RouteInfoFields.FROM_PINCODE)
-  private String fromPinCode;
+  private String fromPincode;
   @Field(value = RouteInfoFields.TO_PINCODE)
-  private String toPinCode;
+  private String toPincode;
   @Field(value = RouteInfoFields.FROM_ADDRESS)
   private String fromAddress;
   @Field(value = RouteInfoFields.TO_ADDRESS)

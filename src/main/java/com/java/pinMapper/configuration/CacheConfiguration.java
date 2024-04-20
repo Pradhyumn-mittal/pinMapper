@@ -15,7 +15,6 @@ import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.RedisPassword;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
-import org.springframework.data.redis.connection.jedis.JedisClientConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.connection.lettuce.LettuceClientConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettucePoolingClientConfiguration;
@@ -38,30 +37,13 @@ public class CacheConfiguration {
     return builder.build();
   }
 
-  private JedisPoolConfig jedisPoolConfig() {
-    JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
-    jedisPoolConfig.setMaxTotal(redisConfiguration.getMaxTotal());
-    jedisPoolConfig.setMinIdle(redisConfiguration.getMinIdle());
-    jedisPoolConfig.setMaxIdle(redisConfiguration.getMaxIdle());
-    return jedisPoolConfig;
-  }
-
   @Primary
-  @Bean(name = "pinMapperJedisConnectionFactory")
-  public JedisConnectionFactory JedisConnectionFactory() {
-    RedisStandaloneConfiguration configuration = new RedisStandaloneConfiguration(
-        redisConfiguration.getHost(),
-        redisConfiguration.getPort()
-    );
-
-    configuration.setPassword(RedisPassword.of(redisConfiguration.getPassword()));
-    JedisClientConfiguration jedisClientConfiguration = JedisClientConfiguration.builder()
-        .usePooling()
-        .poolConfig(jedisPoolConfig())
-        .build();
-
-    return new JedisConnectionFactory(configuration,
-        jedisClientConfiguration);
+  @Bean
+  public JedisConnectionFactory jedisConnectionFactory() {
+    JedisConnectionFactory jedisConFactory = new JedisConnectionFactory();
+    jedisConFactory.setHostName("localhost");
+    jedisConFactory.setPort(6379);
+    return jedisConFactory;
   }
 
 
@@ -75,19 +57,19 @@ public class CacheConfiguration {
     return new Jackson2JsonRedisSerializer(Object.class);
   }
 
-  @Bean(name = "redisTemplate")
+  @Bean
   public RedisTemplate redisTemplate(
-      @Qualifier(value = "pinMapperJedisConnectionFactory") JedisConnectionFactory jedisConnectionFactory,
+      JedisConnectionFactory jedisConnectionFactory,
       StringRedisSerializer stringRedisSerializer,
       Jackson2JsonRedisSerializer jackson2JsonRedisSerializer
   ) {
     RedisTemplate redisTemplate = new RedisTemplate();
 
     redisTemplate.setConnectionFactory(jedisConnectionFactory);
-    redisTemplate.setKeySerializer(stringRedisSerializer);
-    redisTemplate.setHashKeySerializer(stringRedisSerializer);
-    redisTemplate.setValueSerializer(jackson2JsonRedisSerializer);
-    redisTemplate.setHashValueSerializer(jackson2JsonRedisSerializer);
+//    redisTemplate.setKeySerializer(stringRedisSerializer);
+//    redisTemplate.setHashKeySerializer(stringRedisSerializer);
+//    redisTemplate.setValueSerializer(jackson2JsonRedisSerializer);
+//    redisTemplate.setHashValueSerializer(jackson2JsonRedisSerializer);
 
     return redisTemplate;
   }
@@ -97,21 +79,6 @@ public class CacheConfiguration {
     return ClientOptions.builder()
         .disconnectedBehavior(DisconnectedBehavior.REJECT_COMMANDS)
         .autoReconnect(true)
-        .build();
-  }
-
-  @Bean
-  LettucePoolingClientConfiguration lettucePoolConfig(ClientOptions options, ClientResources dcr) {
-
-    GenericObjectPoolConfig<LettuceClientConfiguration> poolConfig = new GenericObjectPoolConfig<>();
-    poolConfig.setMaxIdle(redisConfiguration.getMaxIdle());
-    poolConfig.setMaxTotal(redisConfiguration.getMaxTotal());
-    poolConfig.setMinIdle(redisConfiguration.getMinIdle());
-
-    return LettucePoolingClientConfiguration.builder()
-        .poolConfig(poolConfig)
-        .clientOptions(options)
-        .clientResources(dcr)
         .build();
   }
 

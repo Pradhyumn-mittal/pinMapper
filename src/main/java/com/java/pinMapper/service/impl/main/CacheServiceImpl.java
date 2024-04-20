@@ -18,7 +18,6 @@ public class CacheServiceImpl implements CacheService {
   private static final Logger LOGGER = LoggerFactory.getLogger(CacheServiceImpl.class);
 
   @Autowired
-  @Qualifier(value = "redisTemplate")
   RedisTemplate redisTemplate;
   private static final ObjectMapper MAPPER =
       new ObjectMapper().configure(FAIL_ON_UNKNOWN_PROPERTIES, false);
