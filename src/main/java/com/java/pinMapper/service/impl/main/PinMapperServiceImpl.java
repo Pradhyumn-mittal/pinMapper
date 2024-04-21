@@ -101,11 +101,6 @@ public class PinMapperServiceImpl implements PinMapperService {
         .steps(directionStepsList)
         .build();
   }
-  private static String extractDirection(String htmlInstructions) {
-    Pattern pattern = Pattern.compile("<b>([^<]+)</b>");
-    Matcher matcher = pattern.matcher(htmlInstructions);
-    return matcher.find() ? matcher.group(1) : null;
-  }
+
 
 }
-
