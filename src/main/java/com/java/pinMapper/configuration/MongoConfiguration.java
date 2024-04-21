@@ -6,31 +6,28 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.MongoDatabaseFactory;
-import org.springframework.data.mongodb.config.EnableMongoAuditing;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.convert.MongoConverter;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 @Configuration
-@ComponentScan(basePackages = "com.java.pinMapper.repository.main.java")
-@ComponentScan(basePackages = "com.java.pinMapper.service")
-@ComponentScan(basePackages = "com.java.pinMapper.outbound")
-@EnableMongoRepositories(value = "com.java.pinMapper.repository.main.java")
+@ComponentScan(basePackages = {
+    "com.java.pinMapper.repository.api",
+    "com.java.pinMapper.service",
+    "com.java.pinMapper.outbound"
+})
+@EnableMongoRepositories(basePackages = "com.java.pinMapper.repository.api")
 public class MongoConfiguration {
-  private MongoProperties mongoProperties;
+
+  private final MongoProperties mongoProperties;
+
   @Autowired
-  public MongoConfiguration(
-      MongoProperties mongoProperties
-  ) {
+  public MongoConfiguration(MongoProperties mongoProperties) {
     this.mongoProperties = mongoProperties;
   }
 
   @Bean
   public MongoTemplate mongoTemplate(MongoDatabaseFactory mongoDbFactory, MongoConverter converter) {
     return new MongoTemplate(mongoDbFactory, converter);
-  }
-  @Bean
-  protected String getDatabaseName() {
-    return this.mongoProperties.getDatabase();
   }
 }

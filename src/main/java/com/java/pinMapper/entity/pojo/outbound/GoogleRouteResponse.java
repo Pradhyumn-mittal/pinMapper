@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GoogleRouteResponse {
-  private List<GeocodedWaypoint> geocodedWaypoints;
   private List<Route> routes;
   private String status;
 }

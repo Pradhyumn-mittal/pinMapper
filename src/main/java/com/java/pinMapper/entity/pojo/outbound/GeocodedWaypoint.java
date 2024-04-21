@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 public class GeocodedWaypoint {
-  private String geocoderStatus;
-  private String placeId;
+  private String geocoder_status;
+  private String place_id;
   private List<String> types;
 }

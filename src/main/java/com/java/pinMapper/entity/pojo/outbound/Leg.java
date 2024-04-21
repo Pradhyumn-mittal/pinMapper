@@ -13,12 +13,8 @@ import lombok.NoArgsConstructor;
 public class Leg {
   private Distance distance;
   private Duration duration;
-  private String endAddress;
-  private Location endLocation;
-  private String startAddress;
-  private Location startLocation;
+  private Location end_location;
+  private Location start_location;
   private List<Step> steps;
-  private List<Integer> trafficSpeedEntry;
-  private List<Integer> viaWaypoint;
 
 }

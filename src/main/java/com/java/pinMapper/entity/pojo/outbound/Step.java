@@ -12,10 +12,5 @@ import lombok.NoArgsConstructor;
 public class Step {
   private Distance distance;
   private Duration duration;
-  private Location endLocation;
-  private String htmlInstructions;
-  private String maneuver;
-  private Polyline polyline;
-  private Location startLocation;
-  private String travelMode;
+  private String html_instructions;
 }

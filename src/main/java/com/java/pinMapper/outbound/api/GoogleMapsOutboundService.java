@@ -1,10 +1,11 @@
 package com.java.pinMapper.outbound.api;
 
 import com.java.pinMapper.entity.dao.RouteInfo;
+import com.java.pinMapper.entity.pojo.outbound.GoogleRouteResponse;
 import java.io.IOException;
 
 public interface GoogleMapsOutboundService {
-    RouteInfo findRouteInfo(String origin,String destination) throws IOException;
+    GoogleRouteResponse findRouteInfo(String origin,String destination) throws IOException;
     
     
 }

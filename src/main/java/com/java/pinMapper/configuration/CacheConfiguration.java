@@ -66,10 +66,10 @@ public class CacheConfiguration {
     RedisTemplate redisTemplate = new RedisTemplate();
 
     redisTemplate.setConnectionFactory(jedisConnectionFactory);
-//    redisTemplate.setKeySerializer(stringRedisSerializer);
-//    redisTemplate.setHashKeySerializer(stringRedisSerializer);
-//    redisTemplate.setValueSerializer(jackson2JsonRedisSerializer);
-//    redisTemplate.setHashValueSerializer(jackson2JsonRedisSerializer);
+    redisTemplate.setKeySerializer(stringRedisSerializer);
+    redisTemplate.setHashKeySerializer(stringRedisSerializer);
+    redisTemplate.setValueSerializer(jackson2JsonRedisSerializer);
+    redisTemplate.setHashValueSerializer(jackson2JsonRedisSerializer);
 
     return redisTemplate;
   }
