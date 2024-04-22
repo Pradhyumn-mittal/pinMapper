@@ -10,7 +10,9 @@ import com.java.pinMapper.entity.pojo.outbound.OverviewPolyline;
 import com.java.pinMapper.outbound.api.GoogleMapsOutboundService;
 import com.java.pinMapper.repository.api.RouteInfoRepository;
 import com.java.pinMapper.service.api.CacheService;
+import com.java.pinMapper.service.api.KafkaService;
 import com.java.pinMapper.service.api.PinMapperService;
+import io.reactivex.rxjava3.core.Completable;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,13 +31,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class PinMapperServiceImpl implements PinMapperService {
   private static final Logger LOGGER = LoggerFactory.getLogger(PinMapperServiceImpl.class);
-  private ExecutorService executorService = Executors.newCachedThreadPool();
   @Autowired
   private RouteInfoRepository routeInfoRepository;
   @Autowired
   private CacheService cacheService;
   @Autowired
   private GoogleMapsOutboundService googleMapsOutboundService;
+  @Autowired
+  private KafkaService kafkaService;
 
   @Override
   public RouteResponse findRouteByPincode(Integer origin, Integer destination) throws IOException {
@@ -51,12 +54,12 @@ public class PinMapperServiceImpl implements PinMapperService {
      GoogleRouteResponse googleRouteResponse=googleMapsOutboundService.findRouteInfo(String.valueOf(origin),String.valueOf(destination));
      routeResponse = convertToRouteResponse(origin,destination,googleRouteResponse);
      cacheService.createCache(cacheKey,routeResponse,3600);
-      saveData(origin, destination, routeResponse);
+      saveData(origin, destination, routeResponse).subscribe();
     }
     return routeResponse;
   }
-  private void saveData(Integer origin, Integer destination, RouteResponse response) {
-    CompletableFuture.runAsync(() -> {
+  private Completable saveData(Integer origin, Integer destination, RouteResponse response) {
+    return Completable.create(completableEmitter -> {
       RouteInfo existingRoute = routeInfoRepository.findRouteInfoByOriginPincodeAndDestinationPincode(origin,
           destination);
       if (existingRoute == null) {
@@ -71,9 +74,11 @@ public class PinMapperServiceImpl implements PinMapperService {
             .originLocation(response.getOriginLocation()).destinationLocation(response.getDestinationLocation())
             .originPincode(origin).build();
          routeInfoRepository.save(routeInfo);
-        // kafkaService.sendPincode(response);
+         kafkaService.sendKafkaMessage(response);
+
       }
-    }, executorService);
+      completableEmitter.onComplete();
+    });
   }
 
   private RouteResponse convertToRouteResponse(Integer origin,Integer destination,GoogleRouteResponse googleRouteResponse)
