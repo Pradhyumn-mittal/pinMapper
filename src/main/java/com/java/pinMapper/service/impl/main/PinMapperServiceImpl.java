@@ -16,13 +16,7 @@ import io.reactivex.rxjava3.core.Completable;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Objects;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,9 +42,11 @@ public class PinMapperServiceImpl implements PinMapperService {
     RouteResponse routeResponse= cacheService.findCacheByKey(cacheKey,RouteResponse.class);
     if(Objects.nonNull(routeResponse))
     {
+      LOGGER.info("findRouteByPincode response found in cache origin:{}, destination:{}",origin,destination);
       return routeResponse;
     }
    else{
+      LOGGER.info("findRouteByPincode response not found in cache origin:{}, destination:{}",origin,destination);
      GoogleRouteResponse googleRouteResponse=googleMapsOutboundService.findRouteInfo(String.valueOf(origin),String.valueOf(destination));
      routeResponse = convertToRouteResponse(origin,destination,googleRouteResponse);
      cacheService.createCache(cacheKey,routeResponse,3600);
@@ -63,11 +59,6 @@ public class PinMapperServiceImpl implements PinMapperService {
       RouteInfo existingRoute = routeInfoRepository.findRouteInfoByOriginPincodeAndDestinationPincode(origin,
           destination);
       if (existingRoute == null) {
-        try {
-          Thread.sleep(1000);
-        } catch (InterruptedException e) {
-          throw new RuntimeException(e);
-        }
         LOGGER.info("Route info not found : {} ", response);
         RouteInfo routeInfo = RouteInfo.builder().steps(response.getSteps()).duration(response.getDuration())
             .distance(response.getDistance()).destinationPincode(destination).polygonInfo(response.getPolygonInfo())
@@ -86,7 +77,7 @@ public class PinMapperServiceImpl implements PinMapperService {
     List<DirectionSteps> directionStepsList=new ArrayList<>();
     Leg leg=googleRouteResponse.getRoutes().get(0).getLegs().get(0);
     OverviewPolyline overviewPolyline=googleRouteResponse.getRoutes().get(0).getOverview_polyline();
-    googleRouteResponse.getRoutes().get(0).getLegs().get(0).getSteps().stream()
+    googleRouteResponse.getRoutes().get(0).getLegs().get(0).getSteps()
         .forEach(step->{
           String direction= step.getHtml_instructions();
           DirectionSteps directionSteps=DirectionSteps.builder()

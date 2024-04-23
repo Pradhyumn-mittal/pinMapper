@@ -26,7 +26,6 @@ public class KafkaServiceImpl implements KafkaService{
   @Override
   public void sendKafkaMessage(RouteResponse routeResponse) {
      ObjectMapper mapper = new ObjectMapper();
-    LOGGER.info("sendKafkaMessage routeResponse:{}",routeResponse);
     PincodeData pincodeData= PincodeData.builder()
         .destinationPincode(routeResponse.getDestinationPincode())
         .originPincode(routeResponse.getOriginPincode())

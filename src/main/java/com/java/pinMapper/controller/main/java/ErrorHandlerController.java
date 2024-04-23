@@ -23,7 +23,6 @@ public class ErrorHandlerController {
   @ExceptionHandler(BindException.class)
   @ResponseStatus(value = HttpStatus.BAD_REQUEST)
   public BaseResponse bindException(BindException bindException) {
-    LOGGER.info("BindException = {}", bindException.getMessage(), bindException);
     List<FieldError> bindErrors = bindException.getFieldErrors();
     List<String> errors = new ArrayList<>();
     for (FieldError fieldError : bindErrors) {
@@ -39,7 +38,6 @@ public class ErrorHandlerController {
   @ExceptionHandler(Exception.class)
   @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
   public BaseResponse exception(Exception e) {
-    LOGGER.warn("Exception = {}", e.getMessage(), e);
     List<String> errors = Arrays.asList(ExceptionUtils.getRootCauseStackTrace(e)).subList(0, 1);
     BaseResponse baseResponse = BaseResponse.constructResponse(
         ResponseCode.SYSTEM_ERROR.getCode(),
@@ -52,7 +50,6 @@ public class ErrorHandlerController {
   @ExceptionHandler(RuntimeException.class)
   @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
   public BaseResponse runTimeException(RuntimeException e) {
-    LOGGER.warn("Exception = {}", e.getMessage(), e);
     List<String> errors = Arrays.asList(ExceptionUtils.getRootCauseStackTrace(e)).subList(0, 1);
     BaseResponse baseResponse = BaseResponse.constructResponse(
         ResponseCode.RUNTIME_ERROR.getCode(),
@@ -65,7 +62,6 @@ public class ErrorHandlerController {
   @ExceptionHandler(BusinessLogicException.class)
   public BaseResponse businessLogicException(
       BusinessLogicException ble) {
-    LOGGER.info("BusinessLogicException = {}", ble.getMessage(), ble);
     List<String> errors = Arrays.asList(ExceptionUtils.getRootCauseStackTrace(ble))
         .subList(0,1);
     BaseResponse baseResponse = BaseResponse
