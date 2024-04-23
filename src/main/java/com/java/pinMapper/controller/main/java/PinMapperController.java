@@ -2,8 +2,10 @@ package com.java.pinMapper.controller.main.java;
 
 import com.java.pinMapper.entity.constant.ApiPath;
 
-import com.java.pinMapper.entity.dao.RouteInfo;
+import com.java.pinMapper.entity.constant.enums.ResponseCode;
+
 import com.java.pinMapper.entity.pojo.RouteResponse;
+import com.java.pinMapper.entity.pojo.response.BaseResponse;
 import com.java.pinMapper.service.api.PinMapperService;
 import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-//import io.swagger.annotations.Api;
-//import io.swagger.annotations.ApiOperation;
+
 
 @RestController
 @RequestMapping(ApiPath.PIN_MAPPER)
@@ -23,13 +24,14 @@ public class PinMapperController {
   private PinMapperService pinMapperService;
 //  @ApiOperation(value = "Get.route",notes = "input Integer Pincode")
   @GetMapping(path = ApiPath.ROUTE+ApiPath.PINCODE)
-  public RouteResponse findRouteFromPincode(
+  public BaseResponse<RouteResponse> findRouteFromPincode(
       @RequestParam Integer origin,
       @RequestParam Integer destination
   ) throws IOException {
-    validatePincode(origin,"origin");
-    validatePincode(destination,"destination");
-    return pinMapperService.findRouteByPincode(origin,destination);
+//    validatePincode(origin,"origin");
+//    validatePincode(destination,"destination");
+    return BaseResponse.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),null,
+        pinMapperService.findRouteByPincode(origin,destination));
   }
 
   private void validatePincode(Integer number, String paramName) {
