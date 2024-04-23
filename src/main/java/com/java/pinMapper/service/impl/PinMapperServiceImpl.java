@@ -1,4 +1,4 @@
-package com.java.pinMapper.service.impl.main;
+package com.java.pinMapper.service.impl;
 
 import com.java.pinMapper.entity.constant.CacheKey;
 import com.java.pinMapper.entity.dao.RouteInfo;
@@ -7,8 +7,8 @@ import com.java.pinMapper.entity.pojo.RouteResponse;
 import com.java.pinMapper.entity.pojo.outbound.GoogleRouteResponse;
 import com.java.pinMapper.entity.pojo.outbound.Leg;
 import com.java.pinMapper.entity.pojo.outbound.OverviewPolyline;
+import com.java.pinMapper.repository.RouteInfoRepository;
 import com.java.pinMapper.outbound.api.GoogleMapsOutboundService;
-import com.java.pinMapper.repository.api.RouteInfoRepository;
 import com.java.pinMapper.service.api.CacheService;
 import com.java.pinMapper.service.api.KafkaService;
 import com.java.pinMapper.service.api.PinMapperService;
@@ -26,7 +26,7 @@ import org.springframework.stereotype.Service;
 public class PinMapperServiceImpl implements PinMapperService {
   private static final Logger LOGGER = LoggerFactory.getLogger(PinMapperServiceImpl.class);
   @Autowired
-  private RouteInfoRepository routeInfoRepository;
+  private  RouteInfoRepository routeInfoRepository;
   @Autowired
   private CacheService cacheService;
   @Autowired

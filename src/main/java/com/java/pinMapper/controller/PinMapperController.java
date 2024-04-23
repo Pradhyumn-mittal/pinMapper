@@ -1,4 +1,4 @@
-package com.java.pinMapper.controller.main.java;
+package com.java.pinMapper.controller;
 
 import com.java.pinMapper.entity.constant.ApiPath;
 
@@ -17,26 +17,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(ApiPath.PIN_MAPPER)
-//@Api(value = "PinMapper Main")
 public class PinMapperController {
 
   @Autowired
   private PinMapperService pinMapperService;
-//  @ApiOperation(value = "Get.route",notes = "input Integer Pincode")
-  @GetMapping(path = ApiPath.ROUTE+ApiPath.PINCODE)
+  @GetMapping(path = ApiPath.ROUTE)
   public BaseResponse<RouteResponse> findRouteFromPincode(
       @RequestParam Integer origin,
       @RequestParam Integer destination
   ) throws IOException {
-//    validatePincode(origin,"origin");
-//    validatePincode(destination,"destination");
+    RouteResponse routeResponse=pinMapperService.findRouteByPincode(origin,destination);
     return BaseResponse.constructResponse(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),null,
-        pinMapperService.findRouteByPincode(origin,destination));
+        routeResponse);
   }
 
-  private void validatePincode(Integer number, String paramName) {
-    if (number == null || number < 100000 || number > 999999) {
-      throw new IllegalArgumentException(paramName + " must be a valid pincode");
-    }
-  }
 }

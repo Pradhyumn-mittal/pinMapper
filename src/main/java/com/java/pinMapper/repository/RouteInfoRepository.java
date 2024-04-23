@@ -1,4 +1,4 @@
-package com.java.pinMapper.repository.api;
+package com.java.pinMapper.repository;
 
 import com.java.pinMapper.entity.dao.RouteInfo;
 import org.springframework.data.mongodb.repository.MongoRepository;

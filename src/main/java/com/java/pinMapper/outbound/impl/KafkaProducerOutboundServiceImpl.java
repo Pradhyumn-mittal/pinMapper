@@ -1,4 +1,4 @@
-package com.java.pinMapper.outbound.impl.main;
+package com.java.pinMapper.outbound.impl;
 
 import com.java.pinMapper.outbound.api.KafkaProducerOutboundService;
 import io.reactivex.rxjava3.core.Completable;
