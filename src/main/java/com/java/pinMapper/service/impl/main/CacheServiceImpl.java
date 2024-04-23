@@ -9,7 +9,6 @@ import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -41,8 +40,7 @@ public class CacheServiceImpl implements CacheService {
   }
 
   @Override
-  public Boolean createCache(String key, Object value, long expirySeconds) {
-    Boolean success = true;
+  public void createCache(String key, Object value, long expirySeconds) {
     LOGGER.info("createCache key: {}, value: {}", key, value);
     try {
       if (expirySeconds == 0) {
@@ -51,32 +49,9 @@ public class CacheServiceImpl implements CacheService {
         this.redisTemplate.opsForValue().set(key, value, expirySeconds, TimeUnit.SECONDS);
       }
     } catch (Exception e) {
-      LOGGER.error("CacheServiceImpl-createCache stackTrace = {}",
+      LOGGER.error("CacheServiceImpl-createCache error stackTrace = {}",
           e);
-      success = false;
     }
-
-    return success;
-  }
-
-  @Override
-  public Boolean deleteCache(String key) {
-    Boolean success;
-
-    try {
-      success = redisTemplate.delete(key);
-    } catch (Exception e) {
-      LOGGER.error("CacheServiceImpl-deleteCache stackTrace = {}",
-          e);
-      success = false;
-    }
-
-    return success;
-  }
-
-  @Override
-  public Set getCacheKeys(String pattern) {
-    return redisTemplate.keys(pattern);
   }
 
 }
