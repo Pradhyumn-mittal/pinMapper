@@ -31,7 +31,7 @@ public class KafkaProducerOutboundServiceImpl implements KafkaProducerOutboundSe
           completableEmitter.onComplete();
         } else {
           LOGGER.info("Successfully published kafka message. Topic: {}, Key: {}, Message: {}, Offset: {}, Partition: {}",
-              kafkaTopic, key, message, sendResult.getRecordMetadata().offset(),
+              sendResult.getProducerRecord().topic(), sendResult.getProducerRecord().key(), message, sendResult.getRecordMetadata().offset(),
               sendResult.getRecordMetadata().partition());
           completableEmitter.onComplete();
         }
