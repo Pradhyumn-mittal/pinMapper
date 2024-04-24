@@ -5,9 +5,5 @@ public interface ApiPath {
 
   String PIN_MAPPER="/pin-mapper";
   String ROUTE="/route";
-  String PINCODE="/pincode";
-  String ADDRESS="/address";
-
-  String SAVED_PINCODE="/saved-pincode";
 
 }
