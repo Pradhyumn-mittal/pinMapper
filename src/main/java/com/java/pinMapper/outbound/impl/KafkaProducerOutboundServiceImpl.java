@@ -28,14 +28,13 @@ public class KafkaProducerOutboundServiceImpl implements KafkaProducerOutboundSe
         if (throwable != null) {
           LOGGER.warn("Failed to publish kafka message. Topic: {}, Key: {}, Message: {}, Error: {}",
               kafkaTopic, key, message, throwable.getMessage(), throwable);
-          completableEmitter.onComplete();
         } else {
           LOGGER.info("Successfully published kafka message. Topic: {}, Key: {}, Message: {}, Offset: {}, Partition: {}",
               sendResult.getProducerRecord().topic(), sendResult.getProducerRecord().key(), message, sendResult.getRecordMetadata().offset(),
               sendResult.getRecordMetadata().partition());
-          completableEmitter.onComplete();
         }
       });
+      completableEmitter.onComplete();
     });
   }
 

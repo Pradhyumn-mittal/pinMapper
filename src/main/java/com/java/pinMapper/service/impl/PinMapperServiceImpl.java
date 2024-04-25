@@ -20,6 +20,7 @@ import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -33,6 +34,8 @@ public class PinMapperServiceImpl implements PinMapperService {
   private GoogleMapsOutboundService googleMapsOutboundService;
   @Autowired
   private KafkaService kafkaService;
+  @Value("${pin.mapper.cache.expiry}")
+  private Long cacheExpiry;
 
   @Override
   public RouteResponse findRouteByPincode(Integer origin, Integer destination) throws IOException {
@@ -49,7 +52,7 @@ public class PinMapperServiceImpl implements PinMapperService {
       LOGGER.info("findRouteByPincode response not found in cache origin:{}, destination:{}",origin,destination);
      GoogleRouteResponse googleRouteResponse=googleMapsOutboundService.findRouteInfo(String.valueOf(origin),String.valueOf(destination));
      routeResponse = convertToRouteResponse(origin,destination,googleRouteResponse);
-     cacheService.createCache(cacheKey,routeResponse,3600);
+     cacheService.createCache(cacheKey,routeResponse,cacheExpiry);
       saveData(origin, destination, routeResponse).subscribe();
     }
     return routeResponse;
@@ -64,6 +67,7 @@ public class PinMapperServiceImpl implements PinMapperService {
             .distance(response.getDistance()).destinationPincode(destination).polygonInfo(response.getPolygonInfo())
             .originLocation(response.getOriginLocation()).destinationLocation(response.getDestinationLocation())
             .originPincode(origin).build();
+        LOGGER.info("Route info  found : {} ", routeInfo);
          routeInfoRepository.save(routeInfo);
          kafkaService.sendKafkaMessage(response);
 

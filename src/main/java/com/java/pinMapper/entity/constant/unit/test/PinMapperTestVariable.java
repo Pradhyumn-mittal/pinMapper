@@ -1,9 +1,16 @@
 package com.java.pinMapper.entity.constant.unit.test;
 
+import com.java.pinMapper.entity.dao.RouteInfo;
 import com.java.pinMapper.entity.pojo.DirectionSteps;
 import com.java.pinMapper.entity.pojo.RouteResponse;
+import com.java.pinMapper.entity.pojo.outbound.Distance;
+import com.java.pinMapper.entity.pojo.outbound.Duration;
+import com.java.pinMapper.entity.pojo.outbound.GoogleRouteResponse;
+import com.java.pinMapper.entity.pojo.outbound.Leg;
 import com.java.pinMapper.entity.pojo.outbound.Location;
 import com.java.pinMapper.entity.pojo.outbound.OverviewPolyline;
+import com.java.pinMapper.entity.pojo.outbound.Route;
+import com.java.pinMapper.entity.pojo.outbound.Step;
 import java.util.Collections;
 import java.util.List;
 
@@ -49,6 +56,28 @@ public class PinMapperTestVariable {
       .duration(DURATION)
       .distance(DISTANCE)
       .polygonInfo(OVERVIEW_POLYLINE)
+      .steps(STEPS)
+      .build();
+  public static final List<Route> ROUTE =Collections.singletonList(Route.builder().legs(Collections.singletonList(
+      Leg.builder().distance(Distance.builder().text(DISTANCE).build()).duration(Duration.builder().text(DURATION).build()).end_location(DESTINATION_LOCATION).start_location(ORIGIN_LOCATION)
+          .steps(Collections.singletonList(Step.builder().distance(Distance.builder().text(DIRECTION_DISTANCE).build()).duration(Duration.builder().text(DIRECTION_DURATION).build())
+              .html_instructions(DIRECTION_INFO).build())).build()))
+      .overview_polyline(OVERVIEW_POLYLINE)
+      .build());
+
+  public static final GoogleRouteResponse GOOGLE_ROUTE_RESPONSE=GoogleRouteResponse.builder()
+      .status("OK")
+      .routes(ROUTE)
+      .build();
+
+  public static final RouteInfo ROUTE_INFO=RouteInfo.builder()
+      .destinationLocation(DESTINATION_LOCATION)
+      .originPincode(ORIGIN)
+      .originLocation(ORIGIN_LOCATION)
+      .polygonInfo(OVERVIEW_POLYLINE)
+      .destinationPincode(DESTINATION)
+      .distance(DISTANCE)
+      .duration(DURATION)
       .steps(STEPS)
       .build();
 

@@ -39,8 +39,9 @@ public class CacheServiceImpl implements CacheService {
   }
 
   @Override
-  public void createCache(String key, Object value, long expirySeconds) {
+  public Boolean createCache(String key, Object value, long expirySeconds) {
     LOGGER.info("createCache key: {}, value: {}", key, value);
+    Boolean success = true;
     try {
       if (expirySeconds == 0) {
         this.redisTemplate.opsForValue().set(key, value);
@@ -50,7 +51,10 @@ public class CacheServiceImpl implements CacheService {
     } catch (Exception e) {
       LOGGER.error("CacheServiceImpl-createCache error stackTrace = {}",
           e);
+      success = false;
     }
+    return success;
   }
+
 
 }
