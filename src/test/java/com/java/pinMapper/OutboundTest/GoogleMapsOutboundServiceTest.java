@@ -1,4 +1,4 @@
-package OutboundTest;
+package com.java.pinMapper.OutboundTest;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.anyBoolean;

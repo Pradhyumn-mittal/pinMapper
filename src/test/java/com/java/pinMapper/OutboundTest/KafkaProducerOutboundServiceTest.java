@@ -1,4 +1,4 @@
-package OutboundTest;
+package com.java.pinMapper.OutboundTest;
 
 
 import static org.mockito.ArgumentMatchers.anyString;

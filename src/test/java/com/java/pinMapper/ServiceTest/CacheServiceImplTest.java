@@ -1,4 +1,4 @@
-package ServiceTest;
+package com.java.pinMapper.ServiceTest;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.verify;

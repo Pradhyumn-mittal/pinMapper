@@ -1,4 +1,4 @@
-package ServiceTest;
+package com.java.pinMapper.ServiceTest;
 
 import static com.java.pinMapper.entity.constant.unit.test.PinMapperTestVariable.ROUTE_RESPONSE;
 import static org.mockito.ArgumentMatchers.any;

@@ -1,4 +1,4 @@
-package ControllerTest;
+package com.java.pinMapper.ControllerTest;
 
 
 import static org.hamcrest.Matchers.equalTo;

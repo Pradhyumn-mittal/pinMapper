@@ -1,4 +1,4 @@
-package ServiceTest;
+package com.java.pinMapper.ServiceTest;
 
 
 import static org.mockito.ArgumentMatchers.any;
