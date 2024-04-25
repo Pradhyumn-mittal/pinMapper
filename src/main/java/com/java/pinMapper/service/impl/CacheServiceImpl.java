@@ -1,10 +1,9 @@
-package com.java.pinMapper.service.impl.main;
+package com.java.pinMapper.service.impl;
 
 import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.java.pinMapper.service.api.CacheService;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,8 +39,9 @@ public class CacheServiceImpl implements CacheService {
   }
 
   @Override
-  public void createCache(String key, Object value, long expirySeconds) {
+  public Boolean createCache(String key, Object value, long expirySeconds) {
     LOGGER.info("createCache key: {}, value: {}", key, value);
+    Boolean success = true;
     try {
       if (expirySeconds == 0) {
         this.redisTemplate.opsForValue().set(key, value);
@@ -51,7 +51,10 @@ public class CacheServiceImpl implements CacheService {
     } catch (Exception e) {
       LOGGER.error("CacheServiceImpl-createCache error stackTrace = {}",
           e);
+      success = false;
     }
+    return success;
   }
+
 
 }

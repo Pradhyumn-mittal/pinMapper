@@ -1,4 +1,4 @@
-package com.java.pinMapper.service.impl.main;
+package com.java.pinMapper.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

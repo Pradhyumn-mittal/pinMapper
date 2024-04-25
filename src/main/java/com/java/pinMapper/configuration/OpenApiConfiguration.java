@@ -25,7 +25,7 @@ public class OpenApiConfiguration {
   public OpenAPI usersMicroserviceOpenAPI() {
 
     Server localServer = new Server()
-        .url("http://localhost:8080")
+        .url("http://localhost:8081")
         .description("A Server URL");
 
     Contact contact = new Contact()

@@ -1,4 +1,4 @@
-package com.java.pinMapper.outbound.impl.main;
+package com.java.pinMapper.outbound.impl;
 
 import com.java.pinMapper.configuration.GoogleMapsConfiguration;
 import com.java.pinMapper.configuration.GoogleMapsEndpointService;
@@ -18,18 +18,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @Service
 public class GoogleMapsOutboundServiceImpl implements GoogleMapsOutboundService {
   public static final Logger LOGGER= LoggerFactory.getLogger(GoogleMapsOutboundServiceImpl.class);
-  private final GoogleMapsConfiguration googleMapsConfiguration;
-  private final GoogleMapsEndpointService googleMapsEndpointService;
-
   @Autowired
-  public GoogleMapsOutboundServiceImpl(GoogleMapsConfiguration googleMapsConfiguration) {
-    this.googleMapsConfiguration = googleMapsConfiguration;
-    Retrofit retrofit = new Retrofit.Builder()
-        .baseUrl(googleMapsConfiguration.getBase_url())
-        .addConverterFactory(GsonConverterFactory.create())
-        .build();
-    googleMapsEndpointService = retrofit.create(GoogleMapsEndpointService.class);
-  }
+  private  GoogleMapsConfiguration googleMapsConfiguration;
+  @Autowired
+  private  GoogleMapsEndpointService googleMapsEndpointService;
 
   @Override
   public GoogleRouteResponse findRouteInfo(String origin, String destination)  {
