@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
 @Configuration
-@PropertySource("classpath:application-senstive.properties")
+@PropertySource("classpath:application.properties")
 @ConfigurationProperties(prefix = "pin.mapper.google.maps")
 public class GoogleMapsConfiguration {
   private String base_url;
